@@ -1,0 +1,34 @@
+.vertical-nav {
+  min-width: 10rem;
+  width: 12rem;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+}
+
+.page-content {
+  width: calc(100% - 17rem);
+  margin-left: 15rem;
+  transition: all 0.4s;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.separator {
+  margin: 1rem 0;
+  border: 0;
+  border-bottom: 0.2rem solid #000;
+  display: block;
+  padding: 0;
+  width: calc(120%);
+}
+
+.text-gray {
+  color: #aaa;
+}

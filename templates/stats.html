@@ -1,0 +1,205 @@
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" link href="/static/css/nav.css">
+
+
+    <title>Attack Tree Forest</title>
+
+</head>
+
+<body>
+    <!-- Vertical navbar -->
+    <div class="vertical-nav bg-dark" id="sidebar">
+        <div class="py-4 px-3 mb-4 bg-dark">
+            <div class="media d-flex align-items-center">
+                <div class="media-body">
+                    <h4 class="m-0 font-weight-bold text-light">AFORT</h4>
+                    <p class="font-weight-light text-white-50 mb-0 mt-3">An effort to aggregate attack trees</p>
+                </div>
+            </div>
+        </div>
+
+
+        <p class="text-gray font-weight-bold text-uppercase px-3 small pb-2 mb-0">Navigation</p>
+
+        <ul class="nav flex-column bg-dark mb-0">
+            <li class="nav-item">
+                <a href="/" class="nav-link bg-dark text-white-50">
+                    <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
+                    Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/stats" class="bg-dark nav-link text-white">
+                    <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
+                    Statistics
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/submit" class="nav-link bg-dark text-white-50">
+                    <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
+                    Submit Tree
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/about" class="nav-link bg-dark text-white-50">
+                    <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
+                    About
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    <!-- End vertical navbar -->
+
+
+    <!-- Page content holder -->
+    <div class="page-content pt-4" id="content">
+        <!-- Demo content -->
+        <h2 class="display-4 font-weight-normal">Statistics</h2>
+        <p class="lead font-weight-normal mb-0">This place generates statistics based on the current repository of ATs and ADTs.
+        </p>
+
+    <br/>
+    <div class="card bg-light" style="width:100%">
+            <h5 class="card-header">Filter</h5>
+            <div class="card-body">
+                <form>
+                <div class="row">
+                    <div class="col-auto"><input type="search" class="form-control" placeholder="Filter tree by name..."></div>
+                    <label class="col-form-label">of type:</label>
+                    <div class="col-auto">
+
+                        <select id="inputState" class="form-control">
+                            <option selected>Any</option>
+                            <option>Static</option>
+                            <option>Dynamic</option>
+                            <option>Maintenance</option>
+                        </select>
+                    </div>
+                    <div class="col"><input type="search" class="form-control" placeholder="of description containing.."></div>
+                </div>
+                <div class="row">
+                    <div class="col-auto"><label class="col-form-label">With at least one of these gate types:</label></div>
+                    <div class="col-auto">
+                        <input class="form-check-input col-auto" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">AND</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">FDEP</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">OR</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">SEQ</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">VOT</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">PAND</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">SPARE</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">IM</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-auto"><label class="col-form-label">With at least one of these result types:</label></div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">MTTF</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">Unreliability</label>
+                    </div>
+                    <div class="col-auto">
+                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                        <label class="form-check-label" for="autoSizingCheck2">Unavailability</label>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-auto"><label class="col-form-label">With this many basic elements:</label></div>
+                    <div class="col"><input type="search" class="form-control" placeholder="minimum"></div>
+                    &le; |BE| &le;
+                    <div class="col"><input type="search" class="form-control" placeholder="maximum"></div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-auto"><label class="col-form-label">With this many basic gates:</label></div>
+                    <div class="col"><input type="search" class="form-control" placeholder="minimum"></div>
+                    &le; |Gates| &le;
+                    <div class="col"><input type="search" class="form-control" placeholder="maximum"></div>
+                </div>
+                <div class="row my-1">
+                    <div class="col"><input type="search" class="form-control" placeholder="Published by author..."></div>
+                    <div class="col-auto pl-0 pr-2">
+                        <select id="inputState" class="form-control m-0">
+                            <option selected>After</option>
+                            <option>Before</option>
+                            <option>In</option>
+                        </select>
+                    </div>
+                    <div class="col-2 pl-0 pr-2"><input type="search" class="form-control" placeholder="year..."></div>
+                    <label class="col-form-label">and added to AFORT</label>
+                    <div class="col-auto px-2">
+                        <select id="inputState" class="form-control">
+                            <option selected>After</option>
+                            <option>Before</option>
+                        </select>
+                    </div>
+                    <div class="col-auto pl-0"><input type="date" class="form-control"></div>
+                </div>
+                </form>
+            </div>
+        </div>
+
+    <br/>
+    Total no. of trees (families): <span id="numFam"></span>
+    <br/>
+    Total no. of trees (variants): <span id="numVar"></span>
+
+    <br/><br/>
+    Statistics by:
+    <form id="statBy" class="form-check-inline">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="groupByFamily" value="family" checked onInput="updateDisp()">
+            <label class="form-check-label" for="family">Family</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="groupByVariation" value="variation" onInput="updateDisp()">
+            <label class="form-check-label" for="variation">Variation</label>
+        </div>
+    </form>
+
+
+    </div>
+
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/static/js/nav.js"></script>
+
+</html>
