@@ -16,7 +16,7 @@
 
 </head>
 
-<body>
+<body onload="addVariant()">
     <!-- Vertical navbar -->
     <div class="vertical-nav bg-dark" id="sidebar">
         <div class="py-4 px-3 mb-4 bg-dark">
@@ -83,7 +83,7 @@
         <div class="card bg-light" style="width:100%">
             <h5 class="card-header">Submit a tree</h5>
             <div class="card-body">
-                <form action="." method="POST" id="inputTree">
+                <form action={{url_for('submit')}} method="POST" id="inputTree">
                     <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Your name</label>
                         <div class="col-sm-10">
@@ -100,7 +100,7 @@
                     <div class="form-group row">
                         <label for="modelName" class="col-sm-2 col-form-label">Model name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="modelName">
+                            <input type="text" class="form-control" id="modelName" name="modelName">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -139,12 +139,14 @@
                             <input type="number" class="form-control" id="year">
                         </div>
                     </div>
+
                     <div class="form-group" id="refList">
                     </div>
                     <a href="javascript:;" onClick="addReference()" class="mb-10" id="addRef">Add Reference</a>
 
-                    <div class="form-group" id="varList" onLoad="addVariant()">
+                    <div class="form-group" id="varList">
                     </div>
+
                     <a href="javascript:;" onClick="addVariant()" class="mb-10" id="addVariant">Add Variant</a>
                     <br /> <br/>
                     <input type="submit" value="Submit" class="btn btn-success">

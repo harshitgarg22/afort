@@ -1,5 +1,5 @@
 let refNum = 0;
-let varNum = 0;
+let variants = [];
 
 function addReference(){
     refNum = refNum + 1;
@@ -93,8 +93,8 @@ function addReference(){
 }
 
 function addVariant(){
-    varNum = varNum + 1;
-
+    varNum = variants.length + 1;
+    varPack = {}
     varList = document.getElementById('varList');
 
     varElement = document.createElement('div');
@@ -238,12 +238,207 @@ function addVariant(){
     yearElement.append(divElement);
     varElement.append(yearElement);
 
-    // Append result
+    // Append result div
+    resultDiv = document.createElement('div');
+    resultDiv.className = 'form-group';
+    varElement.append(resultDiv);
+
+    // Append result link
     let resLink = document.createElement('a');
     resLink.href = 'javascript:;';
-    resLink.onClick = 'addResult()';
+    resLink.onclick = function () {addResult(varPack)};
     resLink.innerText = 'Add Result';
     varElement.append(resLink);
 
     varList.append(varElement);
+
+    varPack.elementDiv = varElement;
+    varPack.results = [];
+    varPack.varNum = varNum;
+    variants.push(varPack);
+}
+
+function addResult(varPack){
+    let varDiv = varPack.elementDiv;
+    let resDiv = varDiv.childNodes[varDiv.childNodes.length - 2];
+    let resPack = {};
+
+    let resNum = varPack.results.length + 1;
+    let varNum = varPack.varNum;
+
+    resElement = document.createElement('div');
+    resElement.className = 'form-group m-5 mt-3';
+    resElement.id = 'result-' + resNum + '-for-' + varNum;
+
+    // Append header
+    let resHeader = document.createElement('h3');
+    resHeader.innerText = 'Result ' + resNum;
+    resElement.append(resHeader);
+
+    // Append Type Name
+    resTypeElement = document.createElement('div');
+    resTypeElement.className = 'form-group row';
+    labelElement = document.createElement('label');
+    labelElement.className = 'col-sm-2 col-form-label';
+    labelElement.innerText = 'Type';
+    labelElement.setAttribute('for', 'resType');
+    divElement = document.createElement('div');
+    divElement.className = 'col-sm-10';
+    inputElement = document.createElement('input');
+    inputElement.id = 'resType';
+    inputElement.className = 'form-control';
+    inputElement.setAttribute('type', 'text');
+    divElement.append(inputElement);
+    resTypeElement.append(labelElement);
+    resTypeElement.append(divElement);
+    resElement.append(resTypeElement);
+
+    // Append Value
+    resValueElement = document.createElement('div');
+    resValueElement.className = 'form-group row';
+    labelElement = document.createElement('label');
+    labelElement.className = 'col-sm-2 col-form-label';
+    labelElement.innerText = 'Value';
+    labelElement.setAttribute('for', 'resValue');
+    divElement = document.createElement('div');
+    divElement.className = 'col-sm-10';
+    inputElement = document.createElement('input');
+    inputElement.id = 'resValue';
+    inputElement.className = 'form-control';
+    inputElement.setAttribute('type', 'text');
+    divElement.append(inputElement);
+    resValueElement.append(labelElement);
+    resValueElement.append(divElement);
+    resElement.append(resValueElement);
+
+    // Append Time
+    resTimeElement = document.createElement('div');
+    resTimeElement.className = 'form-group row';
+    labelElement = document.createElement('label');
+    labelElement.className = 'col-sm-2 col-form-label';
+    labelElement.innerText = 'Time (if applicable)';
+    labelElement.setAttribute('for', 'resTime');
+    divElement = document.createElement('div');
+    divElement.className = 'col-sm-10';
+    inputElement = document.createElement('input');
+    inputElement.id = 'resTime';
+    inputElement.className = 'form-control';
+    inputElement.setAttribute('type', 'text');
+    divElement.append(inputElement);
+    resTimeElement.append(labelElement);
+    resTimeElement.append(divElement);
+    resElement.append(resTimeElement);
+
+    // Append Tool
+    resToolElement = document.createElement('div');
+    resToolElement.className = 'form-group row';
+    labelElement = document.createElement('label');
+    labelElement.className = 'col-sm-2 col-form-label';
+    labelElement.innerText = 'Tool';
+    labelElement.setAttribute('for', 'resTool');
+    divElement = document.createElement('div');
+    divElement.className = 'col-sm-10';
+    inputElement = document.createElement('input');
+    inputElement.id = 'resTool';
+    inputElement.className = 'form-control';
+    inputElement.setAttribute('type', 'text');
+    divElement.append(inputElement);
+    resToolElement.append(labelElement);
+    resToolElement.append(divElement);
+    resElement.append(resToolElement);
+
+    // Append OPT
+    resOPTElement = document.createElement('div');
+    resOPTElement.className = 'form-group row';
+    labelElement = document.createElement('label');
+    labelElement.className = 'col-sm-2 col-form-label';
+    labelElement.innerText = 'Original Paper Title';
+    labelElement.setAttribute('for', 'resOPT');
+    divElement = document.createElement('div');
+    divElement.className = 'col-sm-10';
+    inputElement = document.createElement('input');
+    inputElement.id = 'resOPT';
+    inputElement.className = 'form-control';
+    inputElement.setAttribute('type', 'text');
+    divElement.append(inputElement);
+    resOPTElement.append(labelElement);
+    resOPTElement.append(divElement);
+    resElement.append(resOPTElement);
+
+
+    // Append Authors
+    resAuthorElement = document.createElement('div');
+    resAuthorElement.className = 'form-group row';
+    labelElement = document.createElement('label');
+    labelElement.className = 'col-sm-2 col-form-label';
+    labelElement.innerText = 'Authors (separated by commas)';
+    labelElement.setAttribute('for', 'resAuth');
+    divElement = document.createElement('div');
+    divElement.className = 'col-sm-10';
+    inputElement = document.createElement('input');
+    inputElement.id = 'resAuth';
+    inputElement.className = 'form-control';
+    inputElement.setAttribute('type', 'text');
+    divElement.append(inputElement);
+    resAuthorElement.append(labelElement);
+    resAuthorElement.append(divElement);
+    resElement.append(resAuthorElement);
+
+    // Append DOI
+    resdoiElement = document.createElement('div');
+    resdoiElement.className = 'form-group row';
+    labelElement = document.createElement('label');
+    labelElement.className = 'col-sm-2 col-form-label';
+    labelElement.innerText = 'DOI/link';
+    labelElement.setAttribute('for', 'resDoi');
+    divElement = document.createElement('div');
+    divElement.className = 'col-sm-10';
+    inputElement = document.createElement('input');
+    inputElement.id = 'resDoi';
+    inputElement.className = 'form-control';
+    inputElement.setAttribute('type', 'text');
+    divElement.append(inputElement);
+    resdoiElement.append(labelElement);
+    resdoiElement.append(divElement);
+    resElement.append(resdoiElement);
+
+    // Append Year
+    resYearElement = document.createElement('div');
+    resYearElement.className = 'form-group row';
+    labelElement = document.createElement('label');
+    labelElement.className = 'col-sm-2 col-form-label';
+    labelElement.innerText = 'Year';
+    labelElement.setAttribute('for', 'resYear');
+    divElement = document.createElement('div');
+    divElement.className = 'col-sm-10';
+    inputElement = document.createElement('input');
+    inputElement.id = 'resYear';
+    inputElement.className = 'form-control';
+    inputElement.setAttribute('type', 'text');
+    divElement.append(inputElement);
+    resYearElement.append(labelElement);
+    resYearElement.append(divElement);
+    resElement.append(resYearElement);
+
+    // Append Comments
+    resCommentsElement = document.createElement('div');
+    resCommentsElement.className = 'form-group row';
+    labelElement = document.createElement('label');
+    labelElement.className = 'col-sm-2 col-form-label';
+    labelElement.innerText = 'Comments';
+    labelElement.setAttribute('for', 'resComments');
+    divElement = document.createElement('div');
+    divElement.className = 'col-sm-10';
+    inputElement = document.createElement('input');
+    inputElement.id = 'resComments';
+    inputElement.className = 'form-control';
+    inputElement.setAttribute('type', 'text');
+    divElement.append(inputElement);
+    resCommentsElement.append(labelElement);
+    resCommentsElement.append(divElement);
+    resElement.append(resCommentsElement);
+
+    resPack.elementDiv = resElement;
+    varPack.results.push(resPack);
+    resDiv.append(resElement);
 }
