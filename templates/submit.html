@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" link href="/static/css/nav.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 
 
     <title>Attack Tree Forest</title>
@@ -32,25 +33,25 @@
 
         <ul class="nav flex-column bg-dark mb-0">
             <li class="nav-item">
-                <a href="/" class="nav-link bg-dark text-white-50">
+                <a href={{url_for('index')}} class="nav-link bg-dark text-white-50">
                     <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
                     Home
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/stats" class="nav-link bg-dark text-white-50">
+                <a href={{url_for('stats')}} class="nav-link bg-dark text-white-50">
                     <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
                     Statistics
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/submit" class="bg-dark nav-link text-white">
+                <a href={{url_for('submit')}} class="bg-dark nav-link text-white">
                     <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
                     Submit Tree
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/about" class="nav-link bg-dark text-white-50">
+                <a href={{url_for('about')}} class="nav-link bg-dark text-white-50">
                     <i class="fa fa-picture-o mr-3 text-primary fa-fw"></i>
                     About
                 </a>
@@ -82,7 +83,7 @@
         <div class="card bg-light" style="width:100%">
             <h5 class="card-header">Submit a tree</h5>
             <div class="card-body">
-                <form action="." method="POST">
+                <form action="." method="POST" id="inputTree">
                     <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Your name</label>
                         <div class="col-sm-10">
@@ -121,7 +122,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="authors" class="col-sm-2 col-form-label">Authors</label>
+                        <label for="authors" class="col-sm-2 col-form-label">Authors (separated by commas)</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="authors">
                         </div>
@@ -138,61 +139,14 @@
                             <input type="number" class="form-control" id="year">
                         </div>
                     </div>
-
+                    <div class="form-group" id="refList">
+                    </div>
                     <a href="javascript:;" onClick="addReference()" class="mb-10" id="addRef">Add Reference</a>
 
-                    <div class="form-group">
-                        <div class="form-group m-5 mt-3">
-                            <h2 id="firstVariant">Model</h2>
-                            <div class="form-group row">
-                                <label for="dftFile" class="col-sm-2 col-form-label">Choose DFT file</label>
-                                <div class="col-sm-10">
-                                    <input type="file" class="form-control-file" id="dftFile">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="variantName" class="col-sm-2 col-form-label">Variant Name</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="variantName">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="variantdescription" class="col-sm-2 col-form-label">Description</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="variantdescription">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="variantOrigTitle" class="col-sm-2 col-form-label">Original Paper
-                                    Title</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="variantOrigTitle">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="variantAuthor" class="col-sm-2 col-form-label">Authors (separated by
-                                    commas)</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="variantAuthor">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="variantDOI" class="col-sm-2 col-form-label">DOI/link</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="variantDOI">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="variantYear" class="col-sm-2 col-form-label">Year</label>
-                                <div class="col-sm-10">
-                                    <input type="number" class="form-control" id="variantYear">
-                                </div>
-                            </div>
-                            <a href="javascript:;" onClick="addResult()" class="mb-10" id="addResult">Add Result</a>
-                        </div>
-                        <a href="javascript:;" onClick="addVariant()" class="mb-10" id="addVariant">Add Variant</a>
+                    <div class="form-group" id="varList" onLoad="addVariant()">
                     </div>
-                
+                    <a href="javascript:;" onClick="addVariant()" class="mb-10" id="addVariant">Add Variant</a>
+                    <br /> <br/>
                     <input type="submit" value="Submit" class="btn btn-success">
 
                 </form>
@@ -211,6 +165,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
-<script type="text/javascript" src="/static/js/nav.js"></script>
+<script type="text/javascript" src="/static/js/submit.js"></script>
 
 </html>
