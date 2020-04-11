@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug import secure_filename
+from flask_migrate import Migrate
+from werkzeug.utils import secure_filename
 import os
 from mysql_pass import MYSQL_PASS
+
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
@@ -12,72 +14,14 @@ SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostnam
     username="harshitgarg",
     password=MYSQL_PASS,
     hostname="harshitgarg.mysql.pythonanywhere-services.com",
-    databasename="harshitgarg$comments",
+    databasename="harshitgarg$trees",
 )
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-
-class submission(db.Model):
-
-    __tablename__ = "submission"
-
-    id = db.Column(db.Integer, primary_key = True)
-    yourName = db.Column(db.String(256))
-    yourEmail = db.Column(db.String(512))
-    modelName = db.Column(db.String(1024))
-    description = db.Column(db.String(4096))
-    imageFileURL = db.Column(db.String(2048))
-    origPaperTitle = db.Column(db.String(1024))
-    authors = db.Column(db.String(4096))
-    doi = db.Column(db.String(2048))
-    year = db.Column(db.Integer)
-
-    ref = []
-    variant = []
-
-class reference(db.Model):
-
-    __tablename__ = "reference"
-
-    refId = db.Column(db.Integer, primary_key = True)
-    refTitle = db.Column(db.String(1024))
-    refAuthors = db.Column(db.String(4096))
-    refDoi = db.Column(db.String(2048))
-    refYear = db.Column(db.Integer)
-
-class variant(db.Model):
-
-    __tablename__ = "variant"
-
-    varId = db.Column(db.Integer, primary_key = True)
-    dftFileURL = db.Column(db.String(2048))
-    varName = db.Column(db.String(1024))
-    varDescription = db.Column(db.String(4096))
-    varTitle = db.Column(db.String(1024))
-    varAuthors = db.Column(db.String(4096))
-    varDoi = db.Column(db.String(2048))
-    varYear = db.Column(db.Integer)
-
-    results = []
-
-class result(db.Model):
-
-    __tablename__ = "result"
-
-    resId = db.Column(db.Integer, primary_key = True)
-    type = db.Column(db.String(1024))
-    value = db.Column(db.String(1024))
-    time = db.Column(db.String(1024))
-    tool = db.Column(db.String(1024))
-    resultTitle = db.Column(db.String(1024))
-    resultAuthors = db.Column(db.String(4096))
-    resultDoi = db.Column(db.String(2048))
-    varYear = db.Column(db.Integer)
-    resultComment = db.Column(db.String(8192))
-
+migrate = Migrate(app, db)
 
 @app.route('/', methods = ["GET"])
 def index():
@@ -114,9 +58,9 @@ def submit():
                     index = '(1)'
                     pass # Go and try create file again
 
-        img = request.files('imageFile')
         imgURL = None
-        if img != '':
+        if 'imageFile' in request.files:
+            img = request.files['imageFile']
             imgURL = os.path.join(dirName, secure_filename(img.filename))
             img.save(imgURL)
 
@@ -148,3 +92,9 @@ def submit():
 def about():
     return render_template("about.html")
 
+
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'submission': submission, 'reference': reference, 'variant': variant, 'result': result}
+
+from models import submission, reference, variant, result
