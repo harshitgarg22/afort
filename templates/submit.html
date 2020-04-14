@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html>
 
 <head>
@@ -8,15 +10,15 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" link href="/static/css/nav.css">
+    <link rel="stylesheet" href="/static/css/nav.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-
 
     <title>Attack Tree Forest</title>
 
 </head>
 
 <body onload="addVariant()">
+
     <!-- Vertical navbar -->
     <div class="vertical-nav bg-dark" id="sidebar">
         <div class="py-4 px-3 mb-4 bg-dark">
@@ -61,7 +63,6 @@
     </div>
     <!-- End vertical navbar -->
 
-
     <!-- Page content holder -->
     <div class="page-content pt-4" id="content">
         <h2 class="display-4 font-weight-normal">AFORT Submission Page</h2>
@@ -85,13 +86,13 @@
             <div class="card-body">
                 <form action={{url_for('submit')}} method="POST" id="inputTree">
                     <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">Your name</label>
+                        <label for="yourName" class="col-sm-2 col-form-label">Your name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="yourName" name="yourName">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Your email</label>
+                        <label for="yourEmail" class="col-sm-2 col-form-label">Your email</label>
                         <div class="col-sm-10">
                             <input type="email" class="form-control" id="yourEmail" name="yourEmail">
                         </div>
@@ -149,7 +150,7 @@
 
                     <a href="javascript:;" onClick="addVariant()" class="mb-10" id="addVariant">Add Variant</a>
                     <br /> <br/>
-                    <input type="submit" value="Submit" class="btn btn-success">
+                    <input type="submit" value="Submit" class="btn btn-success" id="submit">
 
                 </form>
             </div>
@@ -161,12 +162,10 @@
 
 </body>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
-<script type="text/javascript" src="/static/js/submit.js"></script>
+<script src="/static/js/submit.js"></script>
 
 </html>
