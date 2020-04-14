@@ -24,6 +24,7 @@ function addReference(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'refTitle';
     inputElement.id = 'refTitle';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -43,6 +44,7 @@ function addReference(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'refAuthors';
     inputElement.id = 'refAuthors';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -61,6 +63,7 @@ function addReference(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'refDoi';
     inputElement.id = 'refDoi';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -81,6 +84,7 @@ function addReference(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'refYear';
     inputElement.id = 'refYear';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'number');
@@ -94,7 +98,7 @@ function addReference(){
 
 function addVariant(){
     varNum = variants.length + 1;
-    varPack = {}
+    let varPack = {}
     varList = document.getElementById('varList');
 
     varElement = document.createElement('div');
@@ -121,6 +125,7 @@ function addVariant(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'dftFile';
     inputElement.id = 'dftFile';
     inputElement.className = 'form-control-file';
     inputElement.setAttribute('type', 'file');
@@ -139,6 +144,7 @@ function addVariant(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'variantName';
     inputElement.id = 'variantName';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -157,6 +163,7 @@ function addVariant(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'variantDescription';
     inputElement.id = 'variantDescription';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -175,6 +182,7 @@ function addVariant(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'variantOrigTitle';
     inputElement.id = 'variantOrigTitle';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -194,6 +202,7 @@ function addVariant(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'variantAuthor';
     inputElement.id = 'variantAuthor';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -212,6 +221,7 @@ function addVariant(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'variantDOI';
     inputElement.id = 'variantDOI';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -230,6 +240,7 @@ function addVariant(){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'variantYear';
     inputElement.id = 'variantYear';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'number');
@@ -285,6 +296,7 @@ function addResult(varPack){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'resType';
     inputElement.id = 'resType';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -303,6 +315,7 @@ function addResult(varPack){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'resValue';
     inputElement.id = 'resValue';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -321,6 +334,7 @@ function addResult(varPack){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'resTime';
     inputElement.id = 'resTime';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -339,6 +353,7 @@ function addResult(varPack){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'resTool';
     inputElement.id = 'resTool';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -357,6 +372,7 @@ function addResult(varPack){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'resOPT';
     inputElement.id = 'resOPT';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -376,6 +392,7 @@ function addResult(varPack){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'resAuth';
     inputElement.id = 'resAuth';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -394,6 +411,7 @@ function addResult(varPack){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'resDoi';
     inputElement.id = 'resDoi';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -412,6 +430,7 @@ function addResult(varPack){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'resYear';
     inputElement.id = 'resYear';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -430,6 +449,7 @@ function addResult(varPack){
     divElement = document.createElement('div');
     divElement.className = 'col-sm-10';
     inputElement = document.createElement('input');
+    inputElement.name = 'resComments';
     inputElement.id = 'resComments';
     inputElement.className = 'form-control';
     inputElement.setAttribute('type', 'text');
@@ -442,3 +462,16 @@ function addResult(varPack){
     varPack.results.push(resPack);
     resDiv.append(resElement);
 }
+
+$('#submit').click(function() {
+        $.ajax({
+          type: "POST",
+          contentType: "application/json;",
+          url: "/submitAJAX",
+          data: JSON.stringify(variants),
+          dataType: "json",
+          failure: function(errMsg) {
+                       alert(errMsg);
+                   }
+          })
+    });
