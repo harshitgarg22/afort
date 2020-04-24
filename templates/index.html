@@ -11,13 +11,11 @@
     <link rel="stylesheet" link href="/static/css/nav.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 
-
-
     <title>Attack Tree Forest</title>
 
 </head>
 
-<body>
+<body onload="getData(list_submissions, gateList, BEList);">
     <!-- Vertical navbar -->
     <div class="vertical-nav bg-dark" id="sidebar">
         <div class="py-4 px-3 mb-4 bg-dark">
@@ -84,106 +82,88 @@
             <div class="card-body">
                 <form>
                 <div class="row">
-                    <div class="col-auto"><input type="search" class="form-control" placeholder="Filter tree by name..."></div>
+                    <div class="col-auto"><input type="search" class="form-control" placeholder="Filter tree by name..." id="filter-name" oninput="updateATs();"></div>
                     <label class="col-form-label">of type:</label>
                     <div class="col-auto">
 
-                        <select id="inputState" class="form-control">
+                        <select id="inputState" class="form-control" id='filter-type' oninput="updateATs();">
                             <option selected>Any</option>
                             <option>Static</option>
                             <option>Dynamic</option>
                             <option>Maintenance</option>
                         </select>
                     </div>
-                    <div class="col"><input type="search" class="form-control" placeholder="of description containing.."></div>
+                    <div class="col"><input type="search" class="form-control" placeholder="of description containing.." id="filter-description" oninput="updateATs();"></div>
                 </div>
                 <div class="row">
                     <div class="col-auto"><label class="col-form-label">With at least one of these gate types:</label></div>
                     <div class="col-auto">
-                        <input class="form-check-input col-auto" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">AND</label>
+                        <input class="form-check-input col-auto" type="checkbox" onchange="updateATs();" name="gatetype">
+                        <label class="form-check-label">AND</label>
                     </div>
                     <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">FDEP</label>
+                        <input class="form-check-input" type="checkbox" onchange="updateATs();" name="gatetype">
+                        <label class="form-check-label">OR</label>
                     </div>
                     <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">OR</label>
-                    </div>
-                    <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">SEQ</label>
-                    </div>
-                    <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">VOT</label>
-                    </div>
-                    <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">PAND</label>
-                    </div>
-                    <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">SPARE</label>
-                    </div>
-                    <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">IM</label>
+                        <input class="form-check-input" type="checkbox" onchange="updateATs();" name="gatetype">
+                        <label class="form-check-label">SAND</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-auto"><label class="col-form-label">With at least one of these result types:</label></div>
                     <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">MTTF</label>
+                        <input class="form-check-input" type="checkbox" onchange="updateATs();" name="ResultType">
+                        <label class="form-check-label">MTTF</label>
                     </div>
                     <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">Unreliability</label>
+                        <input class="form-check-input" type="checkbox" onchange="updateATs();" name="ResultType">
+                        <label class="form-check-label">Unreliability</label>
                     </div>
                     <div class="col-auto">
-                        <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
-                        <label class="form-check-label" for="autoSizingCheck2">Unavailability</label>
+                        <input class="form-check-input" type="checkbox" onchange="updateATs();" name="ResultType">
+                        <label class="form-check-label">Unavailability</label>
                     </div>
                 </div>
                 <div class="row mb-1">
                     <div class="col-auto"><label class="col-form-label">With this many basic elements:</label></div>
-                    <div class="col"><input type="search" class="form-control" placeholder="minimum"></div>
+                    <div class="col"><input type="search" class="form-control" placeholder="minimum" oninput="updateATs();" id="minBE"></div>
                     &le; |BE| &le;
-                    <div class="col"><input type="search" class="form-control" placeholder="maximum"></div>
+                    <div class="col"><input type="search" class="form-control" placeholder="maximum" oninput="updateATs();" id="maxBE"></div>
                 </div>
                 <div class="row my-1">
                     <div class="col-auto"><label class="col-form-label">With this many basic gates:</label></div>
-                    <div class="col"><input type="search" class="form-control" placeholder="minimum"></div>
+                    <div class="col"><input type="search" class="form-control" placeholder="minimum" oninput="updateATs();" id="maxGate"></div>
                     &le; |Gates| &le;
-                    <div class="col"><input type="search" class="form-control" placeholder="maximum"></div>
+                    <div class="col"><input type="search" class="form-control" placeholder="maximum" oninput="updateATs();" id="maxGate"></div>
                 </div>
                 <div class="row my-1">
-                    <div class="col"><input type="search" class="form-control" placeholder="Published by author..."></div>
+                    <div class="col"><input type="search" class="form-control" placeholder="Published by author..." oninput="updateATs();" id="author"></div>
                     <div class="col-auto pl-0 pr-2">
-                        <select id="inputState" class="form-control m-0">
+                        <select id="publishYearRel" class="form-control m-0">
                             <option selected>After</option>
                             <option>Before</option>
                             <option>In</option>
                         </select>
                     </div>
-                    <div class="col-2 pl-0 pr-2"><input type="search" class="form-control" placeholder="year..."></div>
+
+                    <div class="col-2 pl-0 pr-2"><input type="search" class="form-control" placeholder="year..." id="publishYear"></div>
                     <label class="col-form-label">and added to AFORT</label>
                     <div class="col-auto px-2">
-                        <select id="inputState" class="form-control">
+                        <select id="addedYearRel" class="form-control">
                             <option selected>After</option>
                             <option>Before</option>
                         </select>
                     </div>
-                    <div class="col-auto pl-0"><input type="date" class="form-control"></div>
+                    <div class="col-auto pl-0"><input type="date" class="form-control" id="addedYear"></div>
+
                 </div>
                 </form>
             </div>
         </div>
 
     <br/>
-    <table class="table table-striped table-hover" id="disp-data">
+    <table class="table table-hover" id="disp-data">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Name</th>
@@ -206,6 +186,15 @@
 
 
 </body>
+
+
+<script>
+    list_submissions = {{list_submissions|tojson}};
+    gateList = {{gateList|tojson}};
+    BEList = {{BEList|tojson}};
+</script>
+<script src="/static/js/index.js"></script>
+<script src="/static/js/filter.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

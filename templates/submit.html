@@ -65,6 +65,15 @@
 
     <!-- Page content holder -->
     <div class="page-content pt-4" id="content">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="alert alert-success" role="alert">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         <h2 class="display-4 font-weight-normal">AFORT Submission Page</h2>
         <br />
         <p class="font-weight-normal mb-0">
@@ -84,7 +93,7 @@
         <div class="card bg-light" style="width:100%">
             <h5 class="card-header">Submit a tree</h5>
             <div class="card-body">
-                <form action={{url_for('submit')}} method="POST" id="inputTree">
+                <form action={{url_for('submit')}} method="POST" id="inputTree" enctype="multipart/form-data">
                     <div class="form-group row">
                         <label for="yourName" class="col-sm-2 col-form-label">Your name</label>
                         <div class="col-sm-10">
