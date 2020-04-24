@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.utils import secure_filename
 import os
-from mysql_pass import MYSQL_PASS
+from config import MYSQL_PASS
 from dftparser import parse_file
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
