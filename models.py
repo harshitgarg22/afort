@@ -1,4 +1,5 @@
 from flask_app import db
+import datetime
 
 class submission(db.Model):
 
@@ -14,9 +15,10 @@ class submission(db.Model):
     authors = db.Column(db.String(2048), nullable=False)
     doi = db.Column(db.String(256), nullable=False)
     year = db.Column(db.Integer, nullable=False)
+    dateAdded = db.Column(db.Date, default=datetime.datetime.utcnow)
 
-    ref = db.relationship('reference', backref = 'my_submission', lazy = 'dynamic')
-    variant = db.relationship('variant', backref = 'my_submission', lazy = 'dynamic')
+    ref = db.relationship('reference', backref = 'my_submission', lazy = 'dynamic', cascade='all')
+    variant = db.relationship('variant', backref = 'my_submission', lazy = 'dynamic', cascade='all')
 
 class reference(db.Model):
 
@@ -27,6 +29,8 @@ class reference(db.Model):
     refAuthors = db.Column(db.String(2048), nullable=False)
     refDoi = db.Column(db.String(256), nullable=False)
     refYear = db.Column(db.Integer, nullable=False)
+
+    sub = db.Column(db.Integer, db.ForeignKey("submission.id"))
 
 class variant(db.Model):
 
@@ -41,7 +45,8 @@ class variant(db.Model):
     varDoi = db.Column(db.String(256), nullable=False)
     varYear = db.Column(db.Integer, nullable=False)
 
-    results = db.relationship('result', backref = 'my_variant', lazy = 'dynamic')
+    sub = db.Column(db.Integer, db.ForeignKey("submission.id"))
+    results = db.relationship('result', backref = 'my_variant', lazy = 'dynamic', cascade='all')
 
 class result(db.Model):
 
@@ -55,5 +60,7 @@ class result(db.Model):
     resultTitle = db.Column(db.String(256), nullable=False)
     resultAuthors = db.Column(db.String(2048), nullable=False)
     resultDoi = db.Column(db.String(256), nullable=False)
-    varYear = db.Column(db.Integer, nullable=False)
+    resYear = db.Column(db.Integer, nullable=False)
     resultComment = db.Column(db.String(2048))
+
+    var = db.Column(db.Integer, db.ForeignKey("variant.varId"))
