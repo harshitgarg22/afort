@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.utils import secure_filename
@@ -9,6 +9,8 @@ from dftparser import parse_file
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(__name__)
+app.secret_key = b'12345678'
+app.config['SESSION_TYPE'] = 'filesystem'
 app.config["DEBUG"] = True
 
 SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
@@ -26,14 +28,38 @@ migrate = Migrate(app, db)
 
 @app.route('/', methods = ["GET"])
 def index():
+    list_submissions = []
+    list_submissions = submission.query.all()
 
-    return render_template('index.html')
+    BEList = []
+    gateList = []
+    list_submissions_json = []
+
+    for sub in list_submissions:
+        for var in sub.variant:
+            (gateList, BEList) = parse_file(os.path.join(THIS_FOLDER, 'data', var.dftFileURL))
+
+        list_submissions_json.append(submission_schema().dump(sub))
+
+    return render_template('index.html', list_submissions = list_submissions_json, gateList = gateList, BEList = BEList)
 
 
 @app.route('/stats', methods = ["GET"])
 def stats():
-    # return render_template("stats.html", comments_disp = Comment.query.all())
-    return render_template("stats.html")
+    list_submissions = []
+    list_submissions = submission.query.all()
+
+    BEList = []
+    gateList = []
+    list_submissions_json = []
+
+    for sub in list_submissions:
+        for var in sub.variant:
+            (gateList, BEList) = parse_file(os.path.join(THIS_FOLDER, 'data', var.dftFileURL))
+
+        list_submissions_json.append(submission_schema().dump(sub))
+
+    return render_template("stats.html", list_submissions = list_submissions, gateList = gateList, BEList = BEList)
 
 jsonData = []
 # This is a makeshift way to send both AJAX and HTML form data. Should be fixed in a future release to a more neater/elegant implementation.
@@ -46,7 +72,6 @@ def get_res():
 def submit():
 
     if request.method == "POST":
-        # formData = request.form.to_dict(flat=False)
 
         resVarList = []
 
@@ -55,7 +80,6 @@ def submit():
             del eachVar['varNum']
             resVarList.append(len(eachVar['results']))
 
-        print(resVarList)
 
         # create directory for this model with name as initials of model name
         index = ''
@@ -75,17 +99,24 @@ def submit():
 
         # Save image for the submission
         imgURL = None
-        if 'imageFile' in request.files:
+        if request.files['imageFile']:
             img = request.files['imageFile']
             imgURL = os.path.join(dirName, secure_filename(img.filename))
             img.save(imgURL)
 
+            # Save the path relative to /data/
+            imgURL = os.path.join(initials + index, secure_filename(img.filename))
+
         # Save the dft file for each submission
         dftURL = []
 
-        for eachDFT in request.files["dftFile"]:
-            dftURL.append(os.path.join(dirName, secure_filename(eachDFT.filename)))
-            eachDFT.save(dftURL)
+        print(request.form.getlist('variantName'))
+        for eachDFT in request.files.getlist("dftFile"):
+            saveFile = (os.path.join(dirName, secure_filename(eachDFT.filename)))
+            eachDFT.save(saveFile)
+
+            # Save the path relative to /data/
+            dftURL.append(os.path.join(initials + index, secure_filename(eachDFT.filename)))
 
         newSub = submission(
             yourName = request.form["yourName"],
@@ -99,56 +130,62 @@ def submit():
             year = request.form["year"]
         )
 
-        newRef = reference(
-            refTitle = request.form["refTitle"],
-            refAuthors = request.form["refAuthors"],
-            refDoi = request.form["refDoi"],
-            refYear = request.form["refYear"]
-        )
+        if "refTitle" in request.form:
+            newRef = reference(
+                refTitle = request.form["refTitle"],
+                refAuthors = request.form["refAuthors"],
+                refDoi = request.form["refDoi"],
+                refYear = request.form["refYear"]
+            )
+            newSub.ref = newRef
+            db.session.add(newRef)
 
-        newVar = variant(
-            dftFileURL = dftURL,
-            varName = request.form['variantName'],
-            varDescription = request.form['variantDescription'],
-            varTitle = request.form['variantOrigTitle'],
-            varAuthors = request.form['variantAuthor'],
-            varDoi = request.form['variantDOI'],
-            varYear = request.form['variantYear']
-        )
 
-        newRes = result(
-            type = request.form['resType'],
-            value = request.form['resValue'],
-            time = request.form['resTime'],
-            tool = request.form['resTool'],
-            resultTitle = request.form['resOPT'],
-            resultAuthors = request.form['resAuth'],
-            resultDoi = request.form['resDoi'],
-            varYear = request.form['resYear'],
-            resultComment = request.form['resComments']
-        )
+        newVar = []
 
-        # Add reference and variant objects to submission
-        newSub.ref = newRef
-        newSub.var = newVar
+        for i in range(len(dftURL)):
+            newVar.append(variant(
+            dftFileURL = dftURL[i],
+            varName = request.form.getlist('variantName')[i],
+            varDescription = request.form.getlist('variantDescription')[i],
+            varTitle = request.form.getlist('variantOrigTitle')[i],
+            varAuthors = request.form.getlist('variantAuthor')[i],
+            varDoi = request.form.getlist('variantDOI')[i],
+            varYear = request.form.getlist('variantYear')[i]
+        ))
 
-        # Add results to every Variant separately
-        offset = 0
+        if "resType" in request.form:
+            newRes = result(
+                type = request.form['resType'],
+                value = request.form['resValue'],
+                time = request.form['resTime'],
+                tool = request.form['resTool'],
+                resultTitle = request.form['resOPT'],
+                resultAuthors = request.form['resAuth'],
+                resultDoi = request.form['resDoi'],
+                resYear = request.form['resYear'],
+                resultComment = request.form['resComments']
+            )
+            db.session.add(newRes)
 
-        for eachVar, resCount in zip(newVar, resVarList):
-            eachVar.results = newRes[offset : offset + resCount]
-            offset += resCount
+            # Add results to every Variant separately
+            offset = 0
+            for eachVar, resCount in zip(newVar, resVarList):
+                eachVar.results = newRes[offset : offset + resCount]
+                offset += resCount
+
+        # Add variant objects to submission
+        newSub.variant = newVar
+
+        for eachVar in newVar:
+            db.session.add(eachVar)
 
         db.session.add(newSub)
-        db.session.add(newRef)
-        db.session.add(newVar)
-        db.session.add(newRes)
-
         db.session.commit()
 
         flash('Your entry has been successfully recorded!', 'info')
 
-        return redirect('submit.html')
+        return redirect(url_for('submit'))
 
     return render_template('submit.html')
 
@@ -163,3 +200,4 @@ def make_shell_context():
     return {'db': db, 'submission': submission, 'reference': reference, 'variant': variant, 'result': result}
 
 from models import submission, reference, variant, result
+from model_marshmallow import submission_schema, reference_schema, variant_schema, result_schema
