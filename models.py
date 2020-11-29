@@ -1,11 +1,14 @@
-from flask_app import db
 import datetime
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
 
 class submission(db.Model):
 
     __tablename__ = "submission"
 
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     yourName = db.Column(db.String(256), nullable=False)
     yourEmail = db.Column(db.String(128), nullable=False)
     modelName = db.Column(db.String(256), nullable=False)
@@ -17,14 +20,17 @@ class submission(db.Model):
     year = db.Column(db.Integer, nullable=False)
     dateAdded = db.Column(db.Date, default=datetime.datetime.utcnow)
 
-    ref = db.relationship('reference', backref = 'my_submission', lazy = 'dynamic', cascade='all')
-    variant = db.relationship('variant', backref = 'my_submission', lazy = 'dynamic', cascade='all')
+    ref = db.relationship(
+        'reference', backref='my_submission', lazy='dynamic', cascade='all')
+    variant = db.relationship(
+        'variant', backref='my_submission', lazy='dynamic', cascade='all')
+
 
 class reference(db.Model):
 
     __tablename__ = "reference"
 
-    refId = db.Column(db.Integer, primary_key = True)
+    refId = db.Column(db.Integer, primary_key=True)
     refTitle = db.Column(db.String(256), nullable=False)
     refAuthors = db.Column(db.String(2048), nullable=False)
     refDoi = db.Column(db.String(256), nullable=False)
@@ -32,11 +38,12 @@ class reference(db.Model):
 
     sub = db.Column(db.Integer, db.ForeignKey("submission.id"))
 
+
 class variant(db.Model):
 
     __tablename__ = "variant"
 
-    varId = db.Column(db.Integer, primary_key = True)
+    varId = db.Column(db.Integer, primary_key=True)
     dftFileURL = db.Column(db.String(256), nullable=False)
     varName = db.Column(db.String(256), nullable=False)
     varDescription = db.Column(db.String(2048))
@@ -46,13 +53,15 @@ class variant(db.Model):
     varYear = db.Column(db.Integer, nullable=False)
 
     sub = db.Column(db.Integer, db.ForeignKey("submission.id"))
-    results = db.relationship('result', backref = 'my_variant', lazy = 'dynamic', cascade='all')
+    results = db.relationship(
+        'result', backref='my_variant', lazy='dynamic', cascade='all')
+
 
 class result(db.Model):
 
     __tablename__ = "result"
 
-    resId = db.Column(db.Integer, primary_key = True)
+    resId = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(256), nullable=False)
     value = db.Column(db.String(256), nullable=False)
     time = db.Column(db.String(128), nullable=False)
