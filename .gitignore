@@ -1,5 +1,5 @@
 *.pyc
 __pycache__
 config.py
-.venv/
-.vscode/
+*.bak
+.vscode
