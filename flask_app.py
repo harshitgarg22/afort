@@ -219,3 +219,8 @@ def about():
 @app.shell_context_processor
 def make_shell_context():
     return {'db': db, 'submission': submission, 'reference': reference, 'variant': variant, 'result': result}
+
+
+@app.route('/debug-sentry')
+def trigger_error():
+    division_by_zero = 1 / 0
