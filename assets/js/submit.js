@@ -1,7 +1,7 @@
 let refNum = 0;
 let variants = [];
 
-function addReference(){
+function addReference() {
     refNum = refNum + 1;
     let refList = document.getElementById('refList');
 
@@ -33,8 +33,8 @@ function addReference(){
     titleElement.append(labelElement);
     titleElement.append(divElement);
     newDiv.append(titleElement);
-    
-    
+
+
     // Append Authors
     authorElement = document.createElement('div');
     authorElement.className = 'form-group row';
@@ -54,7 +54,7 @@ function addReference(){
     authorElement.append(labelElement);
     authorElement.append(divElement);
     newDiv.append(authorElement);
-    
+
     // Append DOI
     doiElement = document.createElement('div');
     doiElement.className = 'form-group row';
@@ -75,8 +75,8 @@ function addReference(){
     doiElement.append(divElement);
     newDiv.append(doiElement);
     refList.append(newDiv);
-    
-    
+
+
     // Append Year
     yearElement = document.createElement('div');
     yearElement.className = 'form-group row';
@@ -96,29 +96,29 @@ function addReference(){
     yearElement.append(labelElement);
     yearElement.append(divElement);
     newDiv.append(yearElement);
-    
+
     refList.append(newDiv);
 }
 
-function addVariant(){
+function addVariant() {
     varNum = variants.length + 1;
     let varPack = {}
     varList = document.getElementById('varList');
-    
+
     varElement = document.createElement('div');
     varElement.className = 'form-group m-5 mt-3';
     varElement.id = 'variant-' + varNum;
-    
+
     // Adding header
     headerElement = document.createElement('h2');
-    if(varNum == 1){
+    if (varNum == 1) {
         headerElement.innerText = 'Model';
-    }   else{
+    } else {
         document.getElementById('variant-1').children[0].innerText = 'Variant 1';
         headerElement.innerText = 'Variant ' + varNum;
     }
     varElement.append(headerElement);
-    
+
     // Append DFT File
     dftElement = document.createElement('div');
     dftElement.className = 'form-group row';
@@ -138,7 +138,7 @@ function addVariant(){
     dftElement.append(labelElement);
     dftElement.append(divElement);
     varElement.append(dftElement);
-    
+
     // Append Variant Name
     varNameElement = document.createElement('div');
     varNameElement.className = 'form-group row';
@@ -158,7 +158,7 @@ function addVariant(){
     varNameElement.append(labelElement);
     varNameElement.append(divElement);
     varElement.append(varNameElement);
-    
+
     // Append Description
     descrElement = document.createElement('div');
     descrElement.className = 'form-group row';
@@ -177,7 +177,7 @@ function addVariant(){
     descrElement.append(labelElement);
     descrElement.append(divElement);
     varElement.append(descrElement);
-    
+
     // Append OPT
     optElement = document.createElement('div');
     optElement.className = 'form-group row';
@@ -197,8 +197,8 @@ function addVariant(){
     optElement.append(labelElement);
     optElement.append(divElement);
     varElement.append(optElement);
-    
-    
+
+
     // Append Authors
     varAuthElement = document.createElement('div');
     varAuthElement.className = 'form-group row';
@@ -218,7 +218,7 @@ function addVariant(){
     varAuthElement.append(labelElement);
     varAuthElement.append(divElement);
     varElement.append(varAuthElement);
-    
+
     // Append doi
     doiElement = document.createElement('div');
     doiElement.className = 'form-group row';
@@ -238,7 +238,7 @@ function addVariant(){
     doiElement.append(labelElement);
     doiElement.append(divElement);
     varElement.append(doiElement);
-    
+
     // Append year
     yearElement = document.createElement('div');
     yearElement.className = 'form-group row';
@@ -258,44 +258,44 @@ function addVariant(){
     yearElement.append(labelElement);
     yearElement.append(divElement);
     varElement.append(yearElement);
-    
+
     // Append result div
     resultDiv = document.createElement('div');
     resultDiv.className = 'form-group';
     varElement.append(resultDiv);
-    
+
     // Append result link
     let resLink = document.createElement('a');
     resLink.href = 'javascript:;';
-    resLink.onclick = function () {addResult(varPack)};
+    resLink.onclick = function () { addResult(varPack) };
     resLink.innerText = 'Add Result';
     varElement.append(resLink);
-    
+
     varList.append(varElement);
-    
+
     varPack.elementDiv = varElement;
     varPack.results = [];
     varPack.varNum = varNum;
     variants.push(varPack);
 }
 
-function addResult(varPack){
+function addResult(varPack) {
     let varDiv = varPack.elementDiv;
     let resDiv = varDiv.childNodes[varDiv.childNodes.length - 2];
     let resPack = {};
-    
+
     let resNum = varPack.results.length + 1;
     let varNum = varPack.varNum;
-    
+
     resElement = document.createElement('div');
     resElement.className = 'form-group m-5 mt-3';
     resElement.id = 'result-' + resNum + '-for-' + varNum;
-    
+
     // Append header
     let resHeader = document.createElement('h3');
     resHeader.innerText = 'Result ' + resNum;
     resElement.append(resHeader);
-    
+
     // Append Type Name
     resTypeElement = document.createElement('div');
     resTypeElement.className = 'form-group row';
@@ -315,7 +315,7 @@ function addResult(varPack){
     resTypeElement.append(labelElement);
     resTypeElement.append(divElement);
     resElement.append(resTypeElement);
-    
+
     // Append Value
     resValueElement = document.createElement('div');
     resValueElement.className = 'form-group row';
@@ -335,7 +335,7 @@ function addResult(varPack){
     resValueElement.append(labelElement);
     resValueElement.append(divElement);
     resElement.append(resValueElement);
-    
+
     // Append Time
     resTimeElement = document.createElement('div');
     resTimeElement.className = 'form-group row';
@@ -355,7 +355,7 @@ function addResult(varPack){
     resTimeElement.append(labelElement);
     resTimeElement.append(divElement);
     resElement.append(resTimeElement);
-    
+
     // Append Tool
     resToolElement = document.createElement('div');
     resToolElement.className = 'form-group row';
@@ -375,7 +375,7 @@ function addResult(varPack){
     resToolElement.append(labelElement);
     resToolElement.append(divElement);
     resElement.append(resToolElement);
-    
+
     // Append OPT
     resOPTElement = document.createElement('div');
     resOPTElement.className = 'form-group row';
@@ -395,8 +395,8 @@ function addResult(varPack){
     resOPTElement.append(labelElement);
     resOPTElement.append(divElement);
     resElement.append(resOPTElement);
-    
-    
+
+
     // Append Authors
     resAuthorElement = document.createElement('div');
     resAuthorElement.className = 'form-group row';
@@ -416,7 +416,7 @@ function addResult(varPack){
     resAuthorElement.append(labelElement);
     resAuthorElement.append(divElement);
     resElement.append(resAuthorElement);
-    
+
     // Append DOI
     resdoiElement = document.createElement('div');
     resdoiElement.className = 'form-group row';
@@ -436,7 +436,7 @@ function addResult(varPack){
     resdoiElement.append(labelElement);
     resdoiElement.append(divElement);
     resElement.append(resdoiElement);
-    
+
     // Append Year
     resYearElement = document.createElement('div');
     resYearElement.className = 'form-group row';
@@ -456,7 +456,7 @@ function addResult(varPack){
     resYearElement.append(labelElement);
     resYearElement.append(divElement);
     resElement.append(resYearElement);
-    
+
     // Append Comments
     resCommentsElement = document.createElement('div');
     resCommentsElement.className = 'form-group row';
@@ -475,20 +475,20 @@ function addResult(varPack){
     resCommentsElement.append(labelElement);
     resCommentsElement.append(divElement);
     resElement.append(resCommentsElement);
-    
+
     resPack.elementDiv = resElement;
     varPack.results.push(resPack);
     resDiv.append(resElement);
 }
 
-$('#submit').click(function() {
+$('#submit').click(function () {
     $.ajax({
         type: "POST",
         contentType: "application/json;",
         url: "/submitAJAX",
         data: JSON.stringify(variants),
         dataType: "json",
-        failure: function(errMsg) {
+        failure: function (errMsg) {
             alert(errMsg);
         }
     })

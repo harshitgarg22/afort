@@ -67,11 +67,11 @@
     <div class="page-content pt-4" id="content">
 
         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p class="alert alert-success" role="alert">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for message in messages %}
+        <p class="alert alert-success" role="alert">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
 
         <h2 class="display-4 font-weight-normal">AFORT Submission Page</h2>
@@ -122,7 +122,8 @@
                     <div class="form-group row">
                         <label for="imageFile" class="col-sm-2 col-form-label">Choose image file [OPTIONAL]</label>
                         <div class="col-sm-10">
-                            <input type="file" class="form-control-file" id="imageFile" accept="image/*" name="imageFile">
+                            <input type="file" class="form-control-file" id="imageFile" accept="image/*"
+                                name="imageFile">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -158,7 +159,7 @@
                     </div>
 
                     <a href="javascript:;" onClick="addVariant()" class="mb-10" id="addVariant">Add Variant</a>
-                    <br /> <br/>
+                    <br /> <br />
                     <input type="submit" value="Submit" class="btn btn-success" id="submit">
 
                 </form>
@@ -167,7 +168,7 @@
 
     </div>
 
-<br/><br/>
+    <br /><br />
 
 </body>
 
